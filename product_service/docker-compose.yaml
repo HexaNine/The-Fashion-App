@@ -1,0 +1,15 @@
+services:
+  product_service_db:
+    image: mongo:8.2.2
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: product_service_
+      MONGO_INITDB_ROOT_PASSWORD: product_service_
+      MONGO_INITDB_DATABASE: product_service_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - product_service_db_data:/data/db
+
+volumes:
+  product_service_db_data:
