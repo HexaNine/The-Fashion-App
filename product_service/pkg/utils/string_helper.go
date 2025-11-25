@@ -1,4 +1,4 @@
-package pkg
+package utils
 
 import (
 	"strings"
@@ -7,7 +7,6 @@ import (
 func IsEmpty(value string) bool{
 	return strings.TrimSpace(value) == ""
 }
-
 
 func HasPrefixConlon(value string) bool{
 	return strings.HasPrefix(value, ":")
