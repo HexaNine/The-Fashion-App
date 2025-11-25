@@ -3,7 +3,9 @@ package config
 import (
 	"log"
 	"os"
-	s "product_service/pkg"
+	s "product_service/pkg/utils"
+
+	"github.com/joho/godotenv"
 )
 
 type Config struct {
@@ -12,6 +14,8 @@ type Config struct {
 }
 
 func LoadConfig() *Config{
+
+	godotenv.Load()
 	
     port := os.Getenv("PORT")
 	dbURL := os.Getenv("DB_URL")

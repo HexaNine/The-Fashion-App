@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"os"
+	"product_service/internal/config"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -11,22 +12,35 @@ import (
 )
 
 var dbClient *mongo.Client
+var db *mongo.Database
+
+func GetInitDB() *mongo.Database{
+	if db == nil {
+		Connect()
+	}
+	return db
+}
 
 func GetClient() *mongo.Client {
 	
 	if dbClient == nil {
+
 		Connect()
 	}
 	
 	return dbClient
 }
 
-func Connect()  {
-
+func Connect() {
+	
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
     defer cancel()
 
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv("DB_URL")))
+	
+	cfg := config.LoadConfig()
+
+
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(cfg.DB_URL))
     
 	if err != nil {
 		log.Fatal("Error creating database client: ", err)
@@ -39,4 +53,5 @@ func Connect()  {
 	log.Println("Successfully connected to MongoDB")
 
 	dbClient = client
+	db = client.Database(os.Getenv("DB_NAME"))
 }

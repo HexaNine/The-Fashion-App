@@ -10,10 +10,16 @@ func NewRouter() *gin.Engine {
 	
 	r := gin.Default()
 
-	r.GET("/products", c.GetProducts)
-    r.POST("/products", c.CreateProduct)
-	r.PUT("/products/:id", c.UpdateProduct)
-	r.DELETE("/products/:id", c.DeleteProduct)
+   
+	product := r.Group("/api/v1/products")
+
+	product.GET("/", c.GetProducts)
+	product.GET("/:id", c.GetProductByID)
+	product.POST("/", c.CreateProduct)
+	product.PUT("/:id", c.UpdateProduct)
+	product.DELETE("/:id", c.DeleteProduct)
+
+	r.NoRoute(c.NoRoute)
 
 	return r
 }
