@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import thefashion.authservice.config.JwtConfig;
 import thefashion.authservice.domain.Role;
-import thefashion.authservice.domain.dto.*;
+import thefashion.authservice.domain.dto.authentication.*;
 import thefashion.authservice.domain.entity.UserEntity;
 import thefashion.authservice.exception.InvalidCredentialsException;
 import thefashion.authservice.exception.UserAlreadyExistsException;

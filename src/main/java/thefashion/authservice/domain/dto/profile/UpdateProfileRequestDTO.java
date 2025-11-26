@@ -1,4 +1,4 @@
-package thefashion.authservice.domain.dto;
+package thefashion.authservice.domain.dto.profile;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class RegisterRequestDTO {
+public class UpdateProfileRequestDTO {
     private String firstName;
     private String lastName;
-    private String email;
-    private String password;
-    private String role; // Optional: CUSTOMER, VENDOR  (defaults to CUSTOMER if not provided)
+    private String profilePicture;
+
 }

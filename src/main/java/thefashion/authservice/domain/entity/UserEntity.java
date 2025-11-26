@@ -35,6 +35,8 @@ public class UserEntity {
     @Column (nullable = false)
     private String passwordHash;
 
+    private String profilePicture;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role = Role.CUSTOMER;

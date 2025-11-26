@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import thefashion.authservice.domain.dto.AuthResponseDTO;
-import thefashion.authservice.domain.dto.LoginRequestDTO;
-import thefashion.authservice.domain.dto.LoginResponseDTO;
-import thefashion.authservice.domain.dto.RegisterRequestDTO;
+import thefashion.authservice.domain.dto.authentication.AuthResponseDTO;
+import thefashion.authservice.domain.dto.authentication.LoginRequestDTO;
+import thefashion.authservice.domain.dto.authentication.LoginResponseDTO;
+import thefashion.authservice.domain.dto.authentication.RegisterRequestDTO;
 import thefashion.authservice.service.implement.AuthServiveImplement;
 
 @RestController

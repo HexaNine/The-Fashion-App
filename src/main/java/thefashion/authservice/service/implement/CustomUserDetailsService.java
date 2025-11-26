@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import thefashion.authservice.domain.dto.CustomUserDetails;
+import thefashion.authservice.domain.dto.authentication.CustomUserDetails;
 import thefashion.authservice.domain.entity.UserEntity;
 import thefashion.authservice.repository.UserRepository;
 

@@ -1,4 +1,4 @@
-package thefashion.authservice.domain.dto;
+package thefashion.authservice.domain.dto.authentication;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
