@@ -17,17 +17,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http)  {
 
-        //Male All Endpoints catch by security
+        //Make All Endpoints catch by security
         http.authorizeHttpRequests(auth ->
                 auth.requestMatchers("/api/v1/auth/**").permitAll()
                         .anyRequest().authenticated()
-                );
+        );
 
         //disable CSRF
         http.csrf(csrf -> csrf.disable());
 
         //Disable form login
         http.formLogin(formLogin -> formLogin.disable());
+
+        //Disable HTTP Basic
+        http.httpBasic(httpBasic -> httpBasic.disable());
 
         //make stateless session
         http.sessionManagement(session ->
