@@ -20,7 +20,7 @@ public class SecurityConfig {
         //Male All Endpoints catch by security
         http.authorizeHttpRequests(auth ->
                 auth.requestMatchers("/api/v1/auth/**").permitAll()
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 );
 
         //disable CSRF
