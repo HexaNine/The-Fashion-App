@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fashion_db
+    username: fashionapp
+    password: fashionapp123
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+        ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+# JWT Configuration
+jwt:
+  secret-key: dGhpc2lzYXZlcnlzZWN1cmVzZWNyZXRrZXlmb3Jqd3R0b2tlbnNhdXRoZW50aWNhdGlvbjEyMzQ1Ng==
+  expiration: 86400000 # 24 hours in milliseconds
+  refresh-expiration: 604800000 # 7 days in milliseconds
+server:
+  port: 9001
+
