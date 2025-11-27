@@ -1,0 +1,26 @@
+server:
+  port: 9092   # Gateway port
+
+spring:
+  application:
+    name: api-gateway
+
+  # Gateway routing configuration
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/v1/auth/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
