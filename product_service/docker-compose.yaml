@@ -1,5 +1,18 @@
 services:
+#  product_service:
+#    container_name: "product-service"
+#    build: .
+#    restart: always
+#    depends_on:
+#      - product_service_db
+#    env_file:
+#      - .env
+#
+#    ports:
+#      - "9002:9002"
+
   product_service_db:
+    container_name: "product-service-db"
     image: mongo:8.2.2
     restart: always
     environment:
@@ -7,7 +20,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: product_service_
       MONGO_INITDB_DATABASE: product_service_db
     ports:
-      - "27017:27017"
+      - "8002:27017"
     volumes:
       - product_service_db_data:/data/db
 
