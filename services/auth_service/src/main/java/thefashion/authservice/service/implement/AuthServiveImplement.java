@@ -2,7 +2,7 @@ package thefashion.authservice.service.implement;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import thefashion.authservice.config.JwtConfig;
+import thefashion.authservice.config.JwtUtils;
 import thefashion.authservice.domain.Role;
 import thefashion.authservice.domain.dto.authentication.*;
 import thefashion.authservice.domain.entity.UserEntity;
@@ -19,7 +19,7 @@ import java.util.UUID;
 public class AuthServiveImplement implements AuthServiceAbstract {
 
     private final UserRepository userRepository;
-    private final JwtConfig jwtConfig;
+    private final JwtUtils jwtUtils;
     private final PasswordEnd passwordEncoder;
 
     @Override
@@ -52,7 +52,7 @@ public class AuthServiveImplement implements AuthServiceAbstract {
 
         // Create CustomUserDetails and generate token using it
         CustomUserDetails userDetails = new CustomUserDetails(savedUser);
-        String token = jwtConfig.generateAccessToken(userDetails);
+        String token = jwtUtils.generateAccessToken(userDetails);
 
         return AuthResponseDTO.builder()
                 .token(token)
@@ -74,8 +74,8 @@ public class AuthServiveImplement implements AuthServiceAbstract {
             throw new InvalidCredentialsException("Invalid credentials");
         }
 
-        String accessToken = jwtConfig.generateAccessToken(userDetails);
-        String refreshToken = jwtConfig.generateRefreshToken(userDetails);
+        String accessToken = jwtUtils.generateAccessToken(userDetails);
+        String refreshToken = jwtUtils.generateRefreshToken(userDetails);
 
 
         return LoginResponseDTO.builder()

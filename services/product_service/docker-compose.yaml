@@ -1,6 +1,7 @@
 services:
   product_service_db:
     image: mongo:8.2.2
+    container_name: product_service_db
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: product_service_
@@ -10,6 +11,5 @@ services:
       - "27017:27017"
     volumes:
       - product_service_db_data:/data/db
-
 volumes:
   product_service_db_data:

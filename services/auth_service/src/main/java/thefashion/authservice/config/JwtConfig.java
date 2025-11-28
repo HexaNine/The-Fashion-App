@@ -1,78 +1,119 @@
 package thefashion.authservice.config;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.proc.SecurityContext;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-import thefashion.authservice.domain.dto.authentication.CustomUserDetails;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 
-import javax.crypto.SecretKey;
-import java.time.Instant;
-import java.util.Date;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.interfaces.RSAPublicKey;
+import java.util.UUID;
 
-@Component
+@Configuration
 public class JwtConfig {
 
-    @Value("${jwt.secret-key}")
-    private String secretKeyString;
-
-    @Value("${jwt.expiration}")
+    @Value("${jwt.expiration:86400000}")
     private Long accessTokenExpiration; // 24 hours in milliseconds
 
     @Value("${jwt.refresh-expiration:604800000}")
     private Long refreshTokenExpiration; // 7 days in milliseconds
 
-    private SecretKey getSigningKey() {
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKeyString));
+    public Long getAccessTokenExpiration() {
+        return accessTokenExpiration;
     }
 
-    public String generateAccessToken(CustomUserDetails userDetails) {
-        Instant now = Instant.now();
-
-        return Jwts.builder()
-                .subject(userDetails.getEmail())
-                .claim("userId", userDetails.getUserId().toString())
-                .claim("role", userDetails.getRole())
-                .claim("firstName", userDetails.getFirstName())
-                .claim("lastName", userDetails.getLastName())
-                .issuedAt(Date.from(now))
-                .expiration(Date.from(now.plusMillis(accessTokenExpiration)))
-                .signWith(getSigningKey())
-                .compact();
+    public Long getRefreshTokenExpiration() {
+        return refreshTokenExpiration;
     }
 
-    public String generateRefreshToken(CustomUserDetails userDetails) {
-        Instant now = Instant.now();
+    // ==================== JWT Access Token ====================
 
-        return Jwts.builder()
-                .subject(userDetails.getEmail())
-                .claim("userId", userDetails.getUserId().toString())
-                .issuedAt(Date.from(now))
-                .expiration(Date.from(now.plusMillis(refreshTokenExpiration)))
-                .signWith(getSigningKey())
-                .compact();
-    }
-
-    public Claims extractClaims(String token) {
-        return Jwts.parser()
-                .verifyWith(getSigningKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
-    }
-
-    public String extractEmail(String token) {
-        return extractClaims(token).getSubject();
-    }
-
-    public boolean validateToken(String token) {
+    @Primary
+    @Bean
+    public KeyPair keyPair() {
         try {
-            extractClaims(token);
-            return true;
-        } catch (Exception e) {
-            return false;
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            keyPairGenerator.initialize(2048);
+            return keyPairGenerator.generateKeyPair();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
+    }
+
+    @Primary
+    @Bean
+    public RSAKey rsaKey(KeyPair keyPair) {
+        return new RSAKey.Builder((RSAPublicKey) keyPair.getPublic())
+                .privateKey(keyPair.getPrivate())
+                .keyID(UUID.randomUUID().toString())
+                .build();
+    }
+
+    @Primary
+    @Bean
+    public JWKSource<SecurityContext> jwkSource(RSAKey rsaKey) {
+        JWKSet jwkSet = new JWKSet(rsaKey);
+        return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
+    }
+
+    @Primary
+    @Bean
+    public JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwkSource) {
+        return new NimbusJwtEncoder(jwkSource);
+    }
+
+    @Primary
+    @Bean
+    public JwtDecoder jwtDecoder(RSAKey rsaKey) throws JOSEException {
+        return NimbusJwtDecoder.withPublicKey(rsaKey.toRSAPublicKey()).build();
+    }
+
+    // ==================== JWT Refresh Token ====================
+
+    @Bean("refreshKeyPair")
+    public KeyPair refreshKeyPair() {
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            keyPairGenerator.initialize(2048);
+            return keyPairGenerator.generateKeyPair();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Bean("refreshRsaKey")
+    public RSAKey refreshRsaKey(@Qualifier("refreshKeyPair") KeyPair keyPair) {
+        return new RSAKey.Builder((RSAPublicKey) keyPair.getPublic())
+                .privateKey(keyPair.getPrivate())
+                .keyID(UUID.randomUUID().toString())
+                .build();
+    }
+
+    @Bean("refreshJwkSource")
+    public JWKSource<SecurityContext> refreshJwkSource(@Qualifier("refreshRsaKey") RSAKey rsaKey) {
+        JWKSet jwkSet = new JWKSet(rsaKey);
+        return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
+    }
+
+    @Bean("refreshJwtEncoder")
+    public JwtEncoder refreshJwtEncoder(@Qualifier("refreshJwkSource") JWKSource<SecurityContext> jwkSource) {
+        return new NimbusJwtEncoder(jwkSource);
+    }
+
+    @Bean("refreshJwtDecoder")
+    public JwtDecoder refreshJwtDecoder(@Qualifier("refreshRsaKey") RSAKey rsaKey) throws JOSEException {
+        return NimbusJwtDecoder.withPublicKey(rsaKey.toRSAPublicKey()).build();
     }
 }
