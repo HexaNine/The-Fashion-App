@@ -1,0 +1,163 @@
+> Task :clean
+> Task :compileJava
+> Task :processResources
+> Task :classes
+> Task :resolveMainClassName
+> Task :bootJar
+> Task :jar
+> Task :assemble
+> Task :check
+> Task :build
+
+BUILD SUCCESSFUL in 2s
+6 actionable tasks: 6 executed
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.2.1/userguide/configuration_cache_enabling.html
+> Task :compileJava UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :resolveMainClassName UP-TO-DATE
+
+> Task :bootRun
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.0)
+
+2025-11-28T22:08:46.571+07:00  INFO 64881 --- [discovery-service] [           main] t.c.s.ServiceDiscoveryApplication        : Starting ServiceDiscoveryApplication using Java 21.0.9 with PID 64881 (/home/nomm/Desktop/The-Fashion-App-Microserive/infrastructure/service-discovery/build/classes/java/main started by nomm in /home/nomm/Desktop/The-Fashion-App-Microserive/infrastructure/service-discovery)
+2025-11-28T22:08:46.573+07:00  INFO 64881 --- [discovery-service] [           main] t.c.s.ServiceDiscoveryApplication        : No active profile set, falling back to 1 default profile: "default"
+2025-11-28T22:08:47.056+07:00  INFO 64881 --- [discovery-service] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=fc2e1a59-a1ff-336b-a782-5b010e194386
+2025-11-28T22:08:47.205+07:00  INFO 64881 --- [discovery-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8761 (http)
+2025-11-28T22:08:47.214+07:00  INFO 64881 --- [discovery-service] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-11-28T22:08:47.215+07:00  INFO 64881 --- [discovery-service] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2025-11-28T22:08:47.246+07:00  INFO 64881 --- [discovery-service] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 642 ms
+2025-11-28T22:08:47.702+07:00  INFO 64881 --- [discovery-service] [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON encoding codec LegacyJacksonJson
+2025-11-28T22:08:47.702+07:00  INFO 64881 --- [discovery-service] [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON decoding codec LegacyJacksonJson
+2025-11-28T22:08:47.792+07:00  INFO 64881 --- [discovery-service] [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML encoding codec XStreamXml
+2025-11-28T22:08:47.792+07:00  INFO 64881 --- [discovery-service] [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML decoding codec XStreamXml
+2025-11-28T22:08:47.877+07:00  INFO 64881 --- [discovery-service] [           main] o.s.v.b.OptionalValidatorFactoryBean     : Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2025-11-28T22:08:48.186+07:00  WARN 64881 --- [discovery-service] [           main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-11-28T22:08:48.196+07:00  INFO 64881 --- [discovery-service] [           main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2025-11-28T22:08:48.207+07:00  INFO 64881 --- [discovery-service] [           main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2025-11-28T22:08:48.207+07:00  INFO 64881 --- [discovery-service] [           main] com.netflix.discovery.DiscoveryClient    : Client configured to neither register nor query for data.
+2025-11-28T22:08:48.208+07:00  INFO 64881 --- [discovery-service] [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1764342528207 with initial instances count: 0
+2025-11-28T22:08:48.232+07:00  INFO 64881 --- [discovery-service] [           main] c.n.eureka.DefaultEurekaServerContext    : Initializing ...
+2025-11-28T22:08:48.233+07:00  INFO 64881 --- [discovery-service] [           main] c.n.eureka.cluster.PeerEurekaNodes       : Adding new peer nodes [http://localhost:8761/eureka/]
+2025-11-28T22:08:48.298+07:00  INFO 64881 --- [discovery-service] [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON encoding codec LegacyJacksonJson
+2025-11-28T22:08:48.298+07:00  INFO 64881 --- [discovery-service] [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON decoding codec LegacyJacksonJson
+2025-11-28T22:08:48.298+07:00  INFO 64881 --- [discovery-service] [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML encoding codec XStreamXml
+2025-11-28T22:08:48.298+07:00  INFO 64881 --- [discovery-service] [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML decoding codec XStreamXml
+2025-11-28T22:08:48.315+07:00  INFO 64881 --- [discovery-service] [           main] c.n.eureka.cluster.PeerEurekaNodes       : Replica node URL:  http://localhost:8761/eureka/
+2025-11-28T22:08:48.320+07:00  INFO 64881 --- [discovery-service] [           main] c.n.e.registry.AbstractInstanceRegistry  : Finished initializing remote region registries. All known remote regions: []
+2025-11-28T22:08:48.320+07:00  INFO 64881 --- [discovery-service] [           main] c.n.eureka.DefaultEurekaServerContext    : Initialized
+2025-11-28T22:08:48.326+07:00  INFO 64881 --- [discovery-service] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2025-11-28T22:08:48.354+07:00  INFO 64881 --- [discovery-service] [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application DISCOVERY-SERVICE with eureka with status UP
+2025-11-28T22:08:48.360+07:00  INFO 64881 --- [discovery-service] [       Thread-9] o.s.c.n.e.server.EurekaServerBootstrap   : isAws returned false
+2025-11-28T22:08:48.360+07:00  INFO 64881 --- [discovery-service] [       Thread-9] o.s.c.n.e.server.EurekaServerBootstrap   : Initialized server context
+2025-11-28T22:08:48.360+07:00  INFO 64881 --- [discovery-service] [       Thread-9] c.n.e.r.PeerAwareInstanceRegistryImpl    : Got 1 instances from neighboring DS node
+2025-11-28T22:08:48.360+07:00  INFO 64881 --- [discovery-service] [       Thread-9] c.n.e.r.PeerAwareInstanceRegistryImpl    : Renew threshold is: 1
+2025-11-28T22:08:48.361+07:00  INFO 64881 --- [discovery-service] [       Thread-9] c.n.e.r.PeerAwareInstanceRegistryImpl    : Changing status to UP
+2025-11-28T22:08:48.362+07:00  INFO 64881 --- [discovery-service] [       Thread-9] e.s.EurekaServerInitializerConfiguration : Started Eureka Server
+2025-11-28T22:08:48.364+07:00  INFO 64881 --- [discovery-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8761 (http) with context path '/'
+2025-11-28T22:08:48.365+07:00  INFO 64881 --- [discovery-service] [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8761
+2025-11-28T22:08:48.371+07:00  INFO 64881 --- [discovery-service] [           main] t.c.s.ServiceDiscoveryApplication        : Started ServiceDiscoveryApplication in 2.06 seconds (process running for 2.372)
+2025-11-28T22:09:22.311+07:00  INFO 64881 --- [discovery-service] [nio-8761-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-28T22:09:22.311+07:00  INFO 64881 --- [discovery-service] [nio-8761-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-11-28T22:09:22.313+07:00  INFO 64881 --- [discovery-service] [nio-8761-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-11-28T22:09:22.459+07:00  INFO 64881 --- [discovery-service] [nio-8761-exec-2] c.n.e.registry.AbstractInstanceRegistry  : Registered instance API-GATEWAY/fedora:api-gateway:9092 with status UP (replication=false)
+2025-11-28T22:09:23.052+07:00  INFO 64881 --- [discovery-service] [nio-8761-exec-3] c.n.e.registry.AbstractInstanceRegistry  : Registered instance API-GATEWAY/fedora:api-gateway:9092 with status UP (replication=true)
+2025-11-28T22:09:48.361+07:00  INFO 64881 --- [discovery-service] [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2025-11-28T22:10:48.361+07:00  INFO 64881 --- [discovery-service] [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2025-11-28T22:11:48.361+07:00  INFO 64881 --- [discovery-service] [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2025-11-28T22:12:48.361+07:00  INFO 64881 --- [discovery-service] [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2025-11-28T22:13:48.361+07:00  INFO 64881 --- [discovery-service] [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2025-11-28T22:14:48.361+07:00  INFO 64881 --- [discovery-service] [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+> Task :clean
+> Task :compileJava
+> Task :processResources
+> Task :classes
+> Task :resolveMainClassName
+> Task :bootJar
+> Task :jar
+> Task :assemble
+> Task :check
+> Task :build
+
+BUILD SUCCESSFUL in 1s
+6 actionable tasks: 6 executed
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.2.1/userguide/configuration_cache_enabling.html
+> Task :compileJava UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :resolveMainClassName UP-TO-DATE
+
+> Task :bootRun
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.0)
+
+2025-11-28T22:15:30.207+07:00  INFO 76521 --- [discovery-service] [           main] t.c.s.ServiceDiscoveryApplication        : Starting ServiceDiscoveryApplication using Java 21.0.9 with PID 76521 (/home/nomm/Desktop/The-Fashion-App-Microserive/infrastructure/service-discovery/build/classes/java/main started by nomm in /home/nomm/Desktop/The-Fashion-App-Microserive/infrastructure/service-discovery)
+2025-11-28T22:15:30.209+07:00  INFO 76521 --- [discovery-service] [           main] t.c.s.ServiceDiscoveryApplication        : No active profile set, falling back to 1 default profile: "default"
+2025-11-28T22:15:30.702+07:00  INFO 76521 --- [discovery-service] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=fc2e1a59-a1ff-336b-a782-5b010e194386
+2025-11-28T22:15:30.874+07:00  INFO 76521 --- [discovery-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8761 (http)
+2025-11-28T22:15:30.884+07:00  INFO 76521 --- [discovery-service] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-11-28T22:15:30.885+07:00  INFO 76521 --- [discovery-service] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2025-11-28T22:15:30.923+07:00  INFO 76521 --- [discovery-service] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 685 ms
+2025-11-28T22:15:31.456+07:00  INFO 76521 --- [discovery-service] [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON encoding codec LegacyJacksonJson
+2025-11-28T22:15:31.457+07:00  INFO 76521 --- [discovery-service] [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON decoding codec LegacyJacksonJson
+2025-11-28T22:15:31.563+07:00  INFO 76521 --- [discovery-service] [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML encoding codec XStreamXml
+2025-11-28T22:15:31.563+07:00  INFO 76521 --- [discovery-service] [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML decoding codec XStreamXml
+2025-11-28T22:15:31.654+07:00  INFO 76521 --- [discovery-service] [           main] o.s.v.b.OptionalValidatorFactoryBean     : Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2025-11-28T22:15:32.024+07:00  WARN 76521 --- [discovery-service] [           main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-11-28T22:15:32.034+07:00  INFO 76521 --- [discovery-service] [           main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2025-11-28T22:15:32.044+07:00  INFO 76521 --- [discovery-service] [           main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2025-11-28T22:15:32.044+07:00  INFO 76521 --- [discovery-service] [           main] com.netflix.discovery.DiscoveryClient    : Client configured to neither register nor query for data.
+2025-11-28T22:15:32.045+07:00  INFO 76521 --- [discovery-service] [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1764342932044 with initial instances count: 0
+2025-11-28T22:15:32.074+07:00  INFO 76521 --- [discovery-service] [           main] c.n.eureka.DefaultEurekaServerContext    : Initializing ...
+2025-11-28T22:15:32.075+07:00  INFO 76521 --- [discovery-service] [           main] c.n.eureka.cluster.PeerEurekaNodes       : Adding new peer nodes [http://localhost:8761/eureka/]
+2025-11-28T22:15:32.137+07:00  INFO 76521 --- [discovery-service] [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON encoding codec LegacyJacksonJson
+2025-11-28T22:15:32.137+07:00  INFO 76521 --- [discovery-service] [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON decoding codec LegacyJacksonJson
+2025-11-28T22:15:32.137+07:00  INFO 76521 --- [discovery-service] [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML encoding codec XStreamXml
+2025-11-28T22:15:32.137+07:00  INFO 76521 --- [discovery-service] [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML decoding codec XStreamXml
+2025-11-28T22:15:32.171+07:00  INFO 76521 --- [discovery-service] [           main] c.n.eureka.cluster.PeerEurekaNodes       : Replica node URL:  http://localhost:8761/eureka/
+2025-11-28T22:15:32.175+07:00  INFO 76521 --- [discovery-service] [           main] c.n.e.registry.AbstractInstanceRegistry  : Finished initializing remote region registries. All known remote regions: []
+2025-11-28T22:15:32.175+07:00  INFO 76521 --- [discovery-service] [           main] c.n.eureka.DefaultEurekaServerContext    : Initialized
+2025-11-28T22:15:32.181+07:00  INFO 76521 --- [discovery-service] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2025-11-28T22:15:32.221+07:00  INFO 76521 --- [discovery-service] [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application DISCOVERY-SERVICE with eureka with status UP
+2025-11-28T22:15:32.227+07:00  INFO 76521 --- [discovery-service] [       Thread-9] o.s.c.n.e.server.EurekaServerBootstrap   : isAws returned false
+2025-11-28T22:15:32.227+07:00  INFO 76521 --- [discovery-service] [       Thread-9] o.s.c.n.e.server.EurekaServerBootstrap   : Initialized server context
+2025-11-28T22:15:32.227+07:00  INFO 76521 --- [discovery-service] [       Thread-9] c.n.e.r.PeerAwareInstanceRegistryImpl    : Got 1 instances from neighboring DS node
+2025-11-28T22:15:32.227+07:00  INFO 76521 --- [discovery-service] [       Thread-9] c.n.e.r.PeerAwareInstanceRegistryImpl    : Renew threshold is: 1
+2025-11-28T22:15:32.227+07:00  INFO 76521 --- [discovery-service] [       Thread-9] c.n.e.r.PeerAwareInstanceRegistryImpl    : Changing status to UP
+2025-11-28T22:15:32.229+07:00  INFO 76521 --- [discovery-service] [       Thread-9] e.s.EurekaServerInitializerConfiguration : Started Eureka Server
+2025-11-28T22:15:32.232+07:00  INFO 76521 --- [discovery-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8761 (http) with context path '/'
+2025-11-28T22:15:32.233+07:00  INFO 76521 --- [discovery-service] [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8761
+2025-11-28T22:15:32.240+07:00  INFO 76521 --- [discovery-service] [           main] t.c.s.ServiceDiscoveryApplication        : Started ServiceDiscoveryApplication in 2.315 seconds (process running for 2.663)
+2025-11-28T22:16:03.598+07:00  INFO 76521 --- [discovery-service] [nio-8761-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-28T22:16:03.598+07:00  INFO 76521 --- [discovery-service] [nio-8761-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-11-28T22:16:03.599+07:00  INFO 76521 --- [discovery-service] [nio-8761-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-11-28T22:16:03.741+07:00  INFO 76521 --- [discovery-service] [nio-8761-exec-2] c.n.e.registry.AbstractInstanceRegistry  : Registered instance API-GATEWAY/fedora:api-gateway:9092 with status UP (replication=false)
+2025-11-28T22:16:04.333+07:00  INFO 76521 --- [discovery-service] [nio-8761-exec-3] c.n.e.registry.AbstractInstanceRegistry  : Registered instance API-GATEWAY/fedora:api-gateway:9092 with status UP (replication=true)
+2025-11-28T22:16:32.227+07:00  INFO 76521 --- [discovery-service] [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2025-11-28T22:16:58.872+07:00  INFO 76521 --- [discovery-service] [nio-8761-exec-8] c.n.e.registry.AbstractInstanceRegistry  : Registered instance AUTH-SERVICE/fedora:auth-service:9001 with status UP (replication=false)
+2025-11-28T22:16:59.381+07:00  INFO 76521 --- [discovery-service] [nio-8761-exec-9] c.n.e.registry.AbstractInstanceRegistry  : Registered instance AUTH-SERVICE/fedora:auth-service:9001 with status UP (replication=true)
+2025-11-28T22:17:32.227+07:00  INFO 76521 --- [discovery-service] [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2025-11-28T22:18:32.227+07:00  INFO 76521 --- [discovery-service] [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2025-11-28T22:19:32.227+07:00  INFO 76521 --- [discovery-service] [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2025-11-28T22:20:32.227+07:00  INFO 76521 --- [discovery-service] [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2025-11-28T22:21:32.228+07:00  INFO 76521 --- [discovery-service] [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2025-11-28T22:22:32.228+07:00  INFO 76521 --- [discovery-service] [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2025-11-28T22:23:18.015+07:00  INFO 76521 --- [discovery-service] [nio-8761-exec-5] c.n.e.registry.AbstractInstanceRegistry  : Registered instance AUTH-SERVICE/fedora:auth-service:9001 with status UP (replication=false)
+2025-11-28T22:23:18.523+07:00  INFO 76521 --- [discovery-service] [nio-8761-exec-7] c.n.e.registry.AbstractInstanceRegistry  : Registered instance AUTH-SERVICE/fedora:auth-service:9001 with status UP (replication=true)
+2025-11-28T22:23:32.228+07:00  INFO 76521 --- [discovery-service] [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2025-11-28T22:24:32.229+07:00  INFO 76521 --- [discovery-service] [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms

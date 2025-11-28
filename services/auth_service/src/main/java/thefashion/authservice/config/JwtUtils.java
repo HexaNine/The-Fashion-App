@@ -1,81 +1,119 @@
 package thefashion.authservice.config;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Component;
 import thefashion.authservice.domain.dto.authentication.CustomUserDetails;
 
-import javax.crypto.SecretKey;
 import java.time.Instant;
-import java.util.Date;
-import java.util.function.Function;
+import java.time.temporal.ChronoUnit;
 
 @Component
 public class JwtUtils {
 
-    @Value("${jwt.secret-key}")
-    private String secretKeyString;
+    private final JwtEncoder jwtEncoder;
+    private final JwtDecoder jwtDecoder;
+    private final JwtEncoder refreshJwtEncoder;
+    private final JwtDecoder refreshJwtDecoder;
+    private final JwtConfig jwtConfig;
 
-    @Value("${jwt.expiration}")
-    private long expiration;
-
-    private SecretKey getSigningKey() {
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKeyString));
+    public JwtUtils(
+            JwtEncoder jwtEncoder,
+            JwtDecoder jwtDecoder,
+            @Qualifier("refreshJwtEncoder") JwtEncoder refreshJwtEncoder,
+            @Qualifier("refreshJwtDecoder") JwtDecoder refreshJwtDecoder,
+            JwtConfig jwtConfig
+    ) {
+        this.jwtEncoder = jwtEncoder;
+        this.jwtDecoder = jwtDecoder;
+        this.refreshJwtEncoder = refreshJwtEncoder;
+        this.refreshJwtDecoder = refreshJwtDecoder;
+        this.jwtConfig = jwtConfig;
     }
 
-    public String generateToken(CustomUserDetails userDetails) {
+    public String generateAccessToken(CustomUserDetails userDetails) {
         Instant now = Instant.now();
+        long expirationSeconds = jwtConfig.getAccessTokenExpiration() / 1000;
 
-        return Jwts.builder()
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer("auth-service")
+                .issuedAt(now)
+                .expiresAt(now.plus(expirationSeconds, ChronoUnit.SECONDS))
                 .subject(userDetails.getEmail())
                 .claim("userId", userDetails.getUserId().toString())
                 .claim("role", userDetails.getRole())
                 .claim("firstName", userDetails.getFirstName())
                 .claim("lastName", userDetails.getLastName())
-                .issuedAt(Date.from(now))
-                .expiration(Date.from(now.plusMillis(expiration)))
-                .signWith(getSigningKey())
-                .compact();
+                .build();
+
+        return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    }
+
+    public String generateRefreshToken(CustomUserDetails userDetails) {
+        Instant now = Instant.now();
+        long expirationSeconds = jwtConfig.getRefreshTokenExpiration() / 1000;
+
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer("auth-service")
+                .issuedAt(now)
+                .expiresAt(now.plus(expirationSeconds, ChronoUnit.SECONDS))
+                .subject(userDetails.getEmail())
+                .claim("userId", userDetails.getUserId().toString())
+                .claim("type", "refresh")
+                .build();
+
+        return refreshJwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
 
     public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+        return jwtDecoder.decode(token).getSubject();
     }
 
     public String extractUserId(String token) {
-        return extractClaim(token, claims -> claims.get("userId", String.class));
+        return jwtDecoder.decode(token).getClaim("userId");
     }
 
     public String extractRole(String token) {
-        return extractClaim(token, claims -> claims.get("role", String.class));
+        return jwtDecoder.decode(token).getClaim("role");
     }
 
-    public Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
-    }
-
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
-
-    private Claims extractAllClaims(String token) {
-        return Jwts.parser()
-                .verifyWith(getSigningKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
+    public Instant extractExpiration(String token) {
+        return jwtDecoder.decode(token).getExpiresAt();
     }
 
     public boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+        try {
+            Instant expiration = extractExpiration(token);
+            return expiration != null && expiration.isBefore(Instant.now());
+        } catch (Exception e) {
+            return true;
+        }
     }
 
-    public boolean validateToken(String token, CustomUserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    public boolean validateToken(String token) {
+        try {
+            jwtDecoder.decode(token);
+            return !isTokenExpired(token);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean validateRefreshToken(String token) {
+        try {
+            refreshJwtDecoder.decode(token);
+            Jwt jwt = refreshJwtDecoder.decode(token);
+            return jwt.getExpiresAt() != null && jwt.getExpiresAt().isAfter(Instant.now());
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public String extractUserIdFromRefreshToken(String token) {
+        return refreshJwtDecoder.decode(token).getClaim("userId");
+    }
+
+    public String extractUsernameFromRefreshToken(String token) {
+        return refreshJwtDecoder.decode(token).getSubject();
     }
 }

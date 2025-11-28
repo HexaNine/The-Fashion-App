@@ -1,1 +1,1 @@
-package eurekaclient
+package kafkaclient
