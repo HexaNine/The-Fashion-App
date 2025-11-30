@@ -1,15 +1,17 @@
 services:
-#  product_service:
-#    container_name: "product-service"
-#    build: .
-#    restart: always
-#    depends_on:
-#      - product_service_db
-#    env_file:
-#      - .env
-#
-#    ports:
-#      - "9002:9002"
+  # product_service:
+  #   container_name: "product-service"
+  #   build: .
+  #   restart: always
+  #   depends_on:
+  #     - product_service_db
+  #   environment:
+  #     PRODUCT_SERVICE_PORT: 9006
+  #     PRODUCT_SERVICE_DB_URL: "mongodb://product_service_:product_service_@product-service-db:27017/product_service_db?authSource=admin"
+  #     PRODUCT_SERVICE_EUREKA_URL: "http://127.0.0.1:8761/eureka"
+  #     PRODUCT_SERVICE_APP_IP: "127.0.0.1"
+  #   ports:
+  #     - "9006:9006"
 
   product_service_db:
     container_name: "product-service-db"

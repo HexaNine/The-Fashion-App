@@ -4,20 +4,24 @@ import (
 	c "product_service/internal/controller"
 
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+
+	_ "product_service/docs" // Import generated docs
 )
 
 func NewRouter() *gin.Engine {
 	
 	r := gin.Default()
 
-   
-	product := r.Group("/api/v1/products")
+	// Swagger documentation route
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	product.GET("/", c.GetProducts)
-	product.GET("/:id", c.GetProductByID)
-	product.POST("/", c.CreateProduct)
-	product.PUT("/:id", c.UpdateProduct)
-	product.DELETE("/:id", c.DeleteProduct)
+	ProductRouter(r, "/api/v1/products")
+
+	ProductCategoryRouter(r, "/api/v1/categories")
+
+	SystemHealthRouter(r, "/api/v1/system/health")
 
 	r.NoRoute(c.NoRoute)
 

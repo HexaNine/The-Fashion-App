@@ -4,10 +4,9 @@ import (
 	"context"
 	"errors"
 	e "product_service/internal/entity"
+	"product_service/internal/transport/dto"
 	"product_service/pkg/utils"
 	"time"
-
-	"product_service/internal/transport/dto"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -15,25 +14,25 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type ProductRepository struct {
+type ProductCategoryRepository struct {
 	collection *mongo.Collection
 }
 
-type ProductRepositoryInterface interface {
-	GetAllProducts(pagination *dto.MetaData, sort *string, filter *map[string]string) (*dto.MetaData, []e.Product, error)
-	GetProductByID(id string) (*e.Product, error)
-	CreateProduct(product *e.Product) error
-	UpdateProduct(id string, product *e.Product) error
-	DeleteProduct(id string) error
+type ProductCategoryInterface interface {
+	GetAllProductCategory(pagination *dto.MetaData, sort *string, filter *map[string]string) (*dto.MetaData, []e.CategoryModel, error)
+	GetCategoryByID(id string) (*e.CategoryModel, error)
+	CreateProductCategory(category *e.CategoryModel) error
+	UpdateProductCategory(id string, category *e.CategoryModel) error
+	DeleteProductCategory(id string) error
 }
 
-func NewProductRepository(db *mongo.Client) ProductRepositoryInterface {
-	return &ProductRepository{
-		collection: db.Database("product_service_db").Collection("products"),
+func NewProductCategoryRepository(db *mongo.Client) ProductCategoryInterface {
+	return &ProductCategoryRepository{
+		collection: db.Database("product_service_db").Collection("product_categories"),
 	}
 }
 
-func (r *ProductRepository) GetAllProducts(pagination *dto.MetaData, sort *string, filter *map[string]string) (*dto.MetaData, []e.Product, error) {
+func (r *ProductCategoryRepository) GetAllProductCategory(pagination *dto.MetaData, sort *string, filter *map[string]string) (*dto.MetaData, []e.CategoryModel, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -85,7 +84,7 @@ func (r *ProductRepository) GetAllProducts(pagination *dto.MetaData, sort *strin
 	}
 	defer cursor.Close(ctx)
 
-	var products []e.Product
+	var products []e.CategoryModel
 	if err = cursor.All(ctx, &products); err != nil {
 		return nil, nil, err
 	}
@@ -103,14 +102,14 @@ func (r *ProductRepository) GetAllProducts(pagination *dto.MetaData, sort *strin
 	}, products, nil
 }
 
-func (r *ProductRepository) GetProductByID(id string) (*e.Product, error) {
+func (r *ProductCategoryRepository) GetCategoryByID(id string) (*e.CategoryModel, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	var product e.Product
-	filter := bson.M{"product_id": id}
+	var category e.CategoryModel
+	filter := bson.M{"category_id": id}
 
-	err := r.collection.FindOne(ctx, filter).Decode(&product)
+	err := r.collection.FindOne(ctx, filter).Decode(&category)
 	if err != nil {
 		if errors.Is(mongo.ErrNoDocuments, err) {
 			return nil, nil
@@ -118,48 +117,39 @@ func (r *ProductRepository) GetProductByID(id string) (*e.Product, error) {
 		return nil, err
 	}
 
-	return &product, nil
+	return &category, nil
 }
 
-func (r *ProductRepository) CreateProduct(product *e.Product) error {
+func (r *ProductCategoryRepository) CreateProductCategory(category *e.CategoryModel) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	if product.ID == "" {
-		product.ID = primitive.NewObjectID().Hex()
+	if category.ID == "" {
+		category.ID = primitive.NewObjectID().Hex()
 	}
 
-	if product.ProductID == "" {
-		product.ProductID = utils.GenerateProductID()
+	if category.ProductID == "" {
+		category.ProductID = utils.GenerateProductID()
 	}
 
-	product.CreatedAt = time.Now()
+	category.CreatedAt = time.Now()
 
-	if product.Status == "" {
-		product.Status = "active"
-	}
-
-	_, err := r.collection.InsertOne(ctx, product)
+	_, err := r.collection.InsertOne(ctx, category)
 	return err
 }
 
-func (r *ProductRepository) UpdateProduct(id string, product *e.Product) error {
+func (r *ProductCategoryRepository) UpdateProductCategory(id string, category *e.CategoryModel) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	product.UpdatedAt = time.Now()
+	category.UpdatedAt = time.Now()
 
 	filter := bson.M{"product_id": id}
 	update := bson.M{
 		"$set": bson.M{
-			"vendor_id":   product.VendorID,
-			"category_id": product.CategoryID,
-			"name":        product.Name,
-			"description": product.Description,
-			"price":       product.Price,
-			"stock":       product.Stock,
-			"status":      product.Status,
-			"updated_at":  product.UpdatedAt,
+			"product_id": category.ProductID,
+			"name":       category.Name,
+			"updated_at": category.UpdatedAt,
 		},
 	}
 
@@ -175,11 +165,11 @@ func (r *ProductRepository) UpdateProduct(id string, product *e.Product) error {
 	return nil
 }
 
-func (r *ProductRepository) DeleteProduct(id string) error {
+func (r *ProductCategoryRepository) DeleteProductCategory(id string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	filter := bson.M{"product_id": id}
+	filter := bson.M{"category_id": id}
 	result, err := r.collection.DeleteOne(ctx, filter)
 	if err != nil {
 		return err

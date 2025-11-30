@@ -22,13 +22,13 @@ func LoadConfig() *Config {
 		return nil
 	}
 
-	port := os.Getenv("PORT")
-	dbURL := os.Getenv("DB_URL")
-	eurekaUrl := os.Getenv("EUREKA_URL")
-	appIp := os.Getenv("APP_IP")
+	port := os.Getenv("PRODUCT_SERVICE_PORT")
+	dbURL := os.Getenv("PRODUCT_SERVICE_DB_URL")
+	eurekaUrl := os.Getenv("PRODUCT_SERVICE_EUREKA_URL")
+	appIp := os.Getenv("PRODUCT_SERVICE_APP_IP")
 
 	if port == "" {
-		port = ":8080"
+		port = ":9006"
 	} else if !s.HasPrefixConlon(port) {
 		port = ":" + port
 	}
