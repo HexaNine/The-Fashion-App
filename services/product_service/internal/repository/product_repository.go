@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"errors"
 	e "product_service/internal/entity"
 	"product_service/pkg/utils"
 	"time"
@@ -19,12 +20,11 @@ type ProductRepository struct {
 }
 
 type ProductRepositoryInterface interface {
-	GetAllProducts(pagination *dto.MetaData,sort *string, filter *map[string]string) (*dto.MetaData, []e.Product, error)
+	GetAllProducts(pagination *dto.MetaData, sort *string, filter *map[string]string) (*dto.MetaData, []e.Product, error)
 	GetProductByID(id string) (*e.Product, error)
 	CreateProduct(product *e.Product) error
 	UpdateProduct(id string, product *e.Product) error
 	DeleteProduct(id string) error
-
 }
 
 func NewProductRepository(db *mongo.Client) ProductRepositoryInterface {
@@ -33,22 +33,26 @@ func NewProductRepository(db *mongo.Client) ProductRepositoryInterface {
 	}
 }
 
-func (r *ProductRepository) GetAllProducts(pagination *dto.MetaData,sort *string, filter *map[string]string) (*dto.MetaData,[]e.Product, error) {
+func (r *ProductRepository) GetAllProducts(pagination *dto.MetaData, sort *string, filter *map[string]string) (*dto.MetaData, []e.Product, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	bsonFilter := bson.M{}
 
-	if(pagination == nil){
+	if pagination == nil {
 		pagination = &dto.MetaData{
-			Page: 1,
+			Page:  1,
 			Limit: 10,
 		}
 	}
 
-	if(pagination.Limit < 1){ pagination.Limit = 10 }
+	if pagination.Limit < 1 {
+		pagination.Limit = 10
+	}
 
-	if(pagination.Page < 1){ pagination.Page = 1}
+	if pagination.Page < 1 {
+		pagination.Page = 1
+	}
 
 	skip := (pagination.Page - 1) * pagination.Limit
 
@@ -60,14 +64,14 @@ func (r *ProductRepository) GetAllProducts(pagination *dto.MetaData,sort *string
 
 		if *sort == "asc" {
 			sortOptions = bson.D{{Key: sortField, Value: 1}}
-		} else{
+		} else {
 			sortOptions = bson.D{{Key: sortField, Value: -1}}
 		}
 	}
-	
+
 	findOptions := options.FindOptions{
-		Sort: sortOptions,
-		Skip: func(i int64) *int64 { return &i }(int64(skip)),
+		Sort:  sortOptions,
+		Skip:  func(i int64) *int64 { return &i }(int64(skip)),
 		Limit: func(i int64) *int64 { return &i }(int64(pagination.Limit)),
 	}
 
@@ -94,7 +98,7 @@ func (r *ProductRepository) GetAllProducts(pagination *dto.MetaData,sort *string
 
 	return &dto.MetaData{
 		Limit: pagination.Limit,
-		Page: pagination.Page,
+		Page:  pagination.Page,
 		Total: int(total),
 	}, products, nil
 }
@@ -108,7 +112,7 @@ func (r *ProductRepository) GetProductByID(id string) (*e.Product, error) {
 
 	err := r.collection.FindOne(ctx, filter).Decode(&product)
 	if err != nil {
-		if err == mongo.ErrNoDocuments {
+		if errors.Is(mongo.ErrNoDocuments, err) {
 			return nil, nil
 		}
 		return nil, err
@@ -121,9 +125,13 @@ func (r *ProductRepository) CreateProduct(product *e.Product) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	if product.ID == "" { product.ID = primitive.NewObjectID().Hex() }
+	if product.ID == "" {
+		product.ID = primitive.NewObjectID().Hex()
+	}
 
-	if product.ProductID == "" { product.ProductID = utils.GenerateProductID() }
+	if product.ProductID == "" {
+		product.ProductID = utils.GenerateProductID()
+	}
 
 	product.CreatedAt = time.Now()
 
@@ -140,7 +148,7 @@ func (r *ProductRepository) UpdateProduct(id string, product *e.Product) error {
 	defer cancel()
 
 	product.UpdatedAt = time.Now()
-	
+
 	filter := bson.M{"product_id": id}
 	update := bson.M{
 		"$set": bson.M{
@@ -183,4 +191,3 @@ func (r *ProductRepository) DeleteProduct(id string) error {
 
 	return nil
 }
-

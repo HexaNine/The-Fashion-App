@@ -1,20 +1,28 @@
 package main
 
 import (
-	"log"
 	"product_service/internal/config"
 	eurekaclient "product_service/internal/config/eureka_client"
 	"product_service/internal/transport/http"
+
+	"github.com/go-playground/validator/v10"
 )
+
+// @title Product Service API
+// @version 1.0
+// @description API for managing products and product categories in The Fashion App
+
+// @host localhost:9006
+// @BasePath /api/v1
+// @schemes http https
 
 func main() {
 
-	cfg := config.LoadConfig()
+	eurekaclient.EurekaClient()
 
-	// Register with Eureka
-	if err := eurekaclient.RegisterEurekaClient(cfg.PORT); err != nil {
-		log.Printf("Warning: Failed to register with Eureka: %v", err)
-	}
+	validator.New()
+
+	cfg := config.LoadConfig()
 
 	app := http.NewRouter()
 
