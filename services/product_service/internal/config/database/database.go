@@ -53,5 +53,5 @@ func Connect() {
 	log.Println("Successfully connected to MongoDB")
 
 	dbClient = client
-	db = client.Database(os.Getenv("DB_NAME"))
+	db = client.Database(os.Getenv("PRODUCT_SERVICE_DB_NAME"))
 }

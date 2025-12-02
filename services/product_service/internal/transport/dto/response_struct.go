@@ -33,14 +33,14 @@ func Created[T any](message string, data *T) ApiResponse[T] {
 	}
 }
 
-func Error[T any](message string) ApiResponse[T] {
-	return ApiResponse[T]{
-		Status: 500,
-		Message: message,
-		Data: *new(T),
-		IsSuccess: false,
+func Error(message string) map[string]interface{} {
+	return map[string]any{
+		"status": 500,
+		"message": message,
+		"is_success": false,
 	}
 }
+
 func Ok[T any](message string, data *T, metaData *MetaData) ApiResponse[T] {
 
     if message == "" {
@@ -71,22 +71,16 @@ func Ok[T any](message string, data *T, metaData *MetaData) ApiResponse[T] {
 	}
 }
 
-func BadRequest[T any](message string) ApiResponse[T] {
-	
-	if message == "" {
-		message = "Bad Request"
-	}
-	
-	return ApiResponse[T]{
-		Status: 400,
-		Message: message,
-		Data: *new(T),
-		IsSuccess: false,
+func BadRequest[T any](message T) map[string]interface{} {
+		
+	return map[string]any{
+		"status": 400,
+		"message": message,
+		"is_success": false,
 	}
 }
 
 func NotFound(message string) map[string]interface{} {
-
 
 	if message == "" {
 		message = "Resource Not Found"
@@ -98,34 +92,5 @@ func NotFound(message string) map[string]interface{} {
 		"is_success": false,
 	}
 }
-
-func Freedom[T any](status *int, message string,  data *T, metaData *MetaData) ApiResponse[T] {
-	
-	if message == "" {
-		message = "Success"
-	}
-
-    if data == nil {
-		var empty T
-		data = &empty
-	}
-
-	if status == nil {
-		defaultStatus := 200
-		status = &defaultStatus
-	}
-
-	return ApiResponse[T]{
-		Status: *status,
-		Message: message,
-		Data: *data,
-		IsSuccess: *status >= 200 && *status < 300,
-		Meta: metaData,
-	}
-}
-
-
-
-
 
 

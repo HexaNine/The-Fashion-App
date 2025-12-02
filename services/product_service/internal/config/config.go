@@ -9,19 +9,26 @@ import (
 )
 
 type Config struct {
-	PORT string
-	DB_URL string
+	PORT       string
+	DB_URL     string
+	EUREKA_URL string
+	APP_IP     string
 }
 
-func LoadConfig() *Config{
+func LoadConfig() *Config {
 
-	godotenv.Load()
-	
-    port := os.Getenv("PORT")
-	dbURL := os.Getenv("DB_URL")
+	err := godotenv.Load()
+	if err != nil {
+		return nil
+	}
+
+	port := os.Getenv("PRODUCT_SERVICE_PORT")
+	dbURL := os.Getenv("PRODUCT_SERVICE_DB_URL")
+	eurekaUrl := os.Getenv("PRODUCT_SERVICE_EUREKA_URL")
+	appIp := os.Getenv("PRODUCT_SERVICE_APP_IP")
 
 	if port == "" {
-		port = ":8080"
+		port = ":9006"
 	} else if !s.HasPrefixConlon(port) {
 		port = ":" + port
 	}
@@ -30,5 +37,5 @@ func LoadConfig() *Config{
 		log.Fatal("error : DB_URL are not provided")
 	}
 
-	return &Config{PORT: port, DB_URL: dbURL}
-} 
+	return &Config{PORT: port, DB_URL: dbURL, EUREKA_URL: eurekaUrl, APP_IP: appIp}
+}
